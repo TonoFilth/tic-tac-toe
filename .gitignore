@@ -1,0 +1,9 @@
+# FOLDERS
+bin/
+.obj/
+.obj_tests/
+trash/
+
+# FILES
+a.out
+
