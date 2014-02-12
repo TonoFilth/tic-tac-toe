@@ -3,7 +3,7 @@ CC:=g++
 CFLAGS:=-Wall -ggdb -std=c++11
 
 # APP
-APPNAME:=tic-tac-toe
+APPNAME:=tictactoe
 
 # APP DIRECTORIES
 BUILDDIR:=bin
@@ -27,7 +27,7 @@ OBJECTS:=$(subst $(TMPDIR)/$(SRCDIR)/main.o,,$(_OBJECTS))
 #SHAREDIR:=../shared
 #SHAREDLIB:=$(SHAREDIR)/lib
 #SHAREDHEADERS:=$(SHAREDIR)/include
-_EXTLIBS:=
+_EXTLIBS:=sfml-graphics sfml-window sfml-system
 EXTLIBS:=$(addprefix -l,$(_EXTLIBS))
 
 # ================================== COMPILE ===================================
