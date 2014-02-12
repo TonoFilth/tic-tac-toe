@@ -9,7 +9,6 @@
 namespace fe
 {
 
-//typedef std::vector<std::vector<sf::Sprite> > TSquareBoard;
 typedef std::list<sf::Sprite> TSpriteList;
 
 class Board
@@ -32,12 +31,19 @@ public:
 	Board& operator=(const Board& toCopy);
 	~Board();
 
-	bool PutChip(UI32 x, UI32 y, const TPlayerID playerId);
+	bool PutChip(UI32 row, UI32 col, const TPlayerID playerId);
 	void Draw(sf::RenderWindow& window) const;
 	void Reset();
 
+	const sf::Vector2u& GetSize() const;
+	const sf::Vector2u& GetSquareSize() const;
+	const sf::IntRect& GetBounds() const;
+	const TPlayerMovements& GetPlayerMovements(const TPlayerID playerId) const;
 	void SetPlayerChip(TPlayerID id, const sf::Sprite& chipSprite);
 };
+
+bool Window2BoardCoords(const sf::Vector2i& windowCoords,
+						sf::Vector2u& boardCoords, const Board& board);
 
 }
 
