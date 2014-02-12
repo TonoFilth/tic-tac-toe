@@ -1,4 +1,3 @@
-#include <iostream>
 #include "fe/Board.h"
 
 using namespace std;
@@ -18,8 +17,8 @@ bool Window2BoardCoords(const sf::Vector2i& windowCoords,
 	if (!boardBounds.contains(windowCoords))
 		return false;
 
-	boardCoords.x = (windowCoords.y - boardBounds.left) / board.GetSquareSize().y;
-	boardCoords.y = (windowCoords.x - boardBounds.top)  / board.GetSquareSize().x;
+	boardCoords.x = (windowCoords.y - boardBounds.top)   / board.GetSquareSize().y;
+	boardCoords.y = (windowCoords.x - boardBounds.left)  / board.GetSquareSize().x;
 
 	return true;
 }
@@ -76,12 +75,12 @@ bool Board::PutChip(UI32 row, UI32 col, const TPlayerID playerId)
 		row >= m_BoardSize.x || col >= m_BoardSize.y)
 		return false;
 
-	I32 xPos = m_Bounds.top  + col * m_SquareSize.y;
-	I32 yPos = m_Bounds.left + row * m_SquareSize.x;
 	Sprite* s = &m_PlayerChipMap[playerId];
+	I32 xPos = m_Bounds.left + col * m_SquareSize.x;
+	I32 yPos = m_Bounds.top  + row * m_SquareSize.y;
 
-	xPos += m_SquareSize.y * 0.5 - s->getGlobalBounds().height * 0.5;
-	yPos += m_SquareSize.x * 0.5 - s->getGlobalBounds().width  * 0.5;
+	xPos += m_SquareSize.x * 0.5 - s->getGlobalBounds().width * 0.5;
+	yPos += m_SquareSize.y * 0.5 - s->getGlobalBounds().height  * 0.5;
 
 	s->setPosition(xPos, yPos);
 	
