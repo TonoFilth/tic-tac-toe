@@ -22,6 +22,7 @@ private:
 	Board* 	  		 m_Board;
 	TPlayerID 		 m_CurrentPlayer;
 	sf::Sprite		 m_CurrentPlayerSprite;
+	sf::Sprite 		 m_BackgroundSprite;
 	UI16	  		 m_Score[2];
 	StateController  m_InternalState;
 	TGameState		 m_GameState;

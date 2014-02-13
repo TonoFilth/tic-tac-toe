@@ -9,27 +9,32 @@ namespace fe
 // =============================================================================
 //	CONSTANTS
 // =============================================================================
-const string GameConstants::Player1TextureFile = "assets/images/chip-a.png";
-const string GameConstants::Player2TextureFile = "assets/images/chip-b.png";
-const string GameConstants::SquareTextureFile  = "assets/images/square.png";
-const string GameConstants::HudFontFile		   = "assets/fonts/Monaco.ttf";
+const string GameConstants::GameBackgroundTextureFile = "assets/images/background.jpg";
+const string GameConstants::Player1TextureFile 		  = "assets/images/chip-a.png";
+const string GameConstants::Player2TextureFile 		  = "assets/images/chip-b.png";
+const string GameConstants::SquareTextureFile  		  = "assets/images/square.png";
+const string GameConstants::HudFontFile		   		  = "assets/fonts/Exo-Black.otf";
 
 const Vector2u GameConstants::WindowSize(500, 500);
 const Vector2u GameConstants::BoardSize(3, 3);
 const Vector2u GameConstants::SquareSize(64, 64);
 
 const Color GameConstants::HudBackgroundColor(0, 0, 0, 200);
-const Color GameConstants::HudPlayerNameColor(255, 255, 255, 255);
-const Color GameConstants::HudScoreboardColor(255, 255, 255, 255);
-const Color GameConstants::HudGameMessageColor(0, 0, 0, 255);
+const Color GameConstants::HudPlayerNameColor(Color::White);
+const Color GameConstants::HudScoreboardColor(Color::White);
+const Color GameConstants::HudGameMessageColor(Color::White);
 
 const UI32 GameConstants::HudPlayerNameTextSize  = 24;
 const UI32 GameConstants::HudScoreboardTextSize  = 24;
-const UI32 GameConstants::HudGameMessageTextSize = 30;
+const UI32 GameConstants::HudGameMessageTextSize = 18;
+
+const Vector2f GameConstants::HudGameMessagePosition(GameConstants::WindowSize.x * 0.5,
+	GameConstants::WindowSize.y - GameConstants::WindowSize.y * 0.1);
 
 // =============================================================================
 //	STATIC FIELDS
 // =============================================================================
+Texture GameConstants::GameBackgroundTexture;
 Texture GameConstants::Player1Texture;
 Texture GameConstants::Player2Texture;
 Texture GameConstants::SquareTexture;
@@ -46,7 +51,8 @@ bool GameConstants::Init()
 	if (st_Initialized)
 		return false;
 
-	if (!Player1Texture.loadFromFile(Player1TextureFile) ||
+	if (!GameBackgroundTexture.loadFromFile(GameBackgroundTextureFile) ||
+		!Player1Texture.loadFromFile(Player1TextureFile) ||
 		!Player2Texture.loadFromFile(Player2TextureFile) ||
 		!SquareTexture.loadFromFile(SquareTextureFile))
 	{

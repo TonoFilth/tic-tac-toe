@@ -14,6 +14,7 @@ FGame::FGame(const UI16 windowWidth, const UI16 windowHeight) :
 	m_Board(nullptr),
 	m_CurrentPlayer(TPlayerID::PLAYER2),
 	m_CurrentPlayerSprite(GameConstants::Player1Texture),
+	m_BackgroundSprite(GameConstants::GameBackgroundTexture),
 	m_Score{ 0, 0 },
 	m_GameState(TGameState::PLAYING),
 	m_HUD(Vector2f(windowWidth, windowWidth * 0.08)),
@@ -30,6 +31,12 @@ FGame::FGame(const UI16 windowWidth, const UI16 windowHeight) :
 
 	m_Board->SetPlayerChip(TPlayerID::PLAYER1, Sprite(GameConstants::Player1Texture));
 	m_Board->SetPlayerChip(TPlayerID::PLAYER2, Sprite(GameConstants::Player2Texture));
+
+	GameConstants::GameBackgroundTexture.setSmooth(true);
+	m_BackgroundSprite.setOrigin(GameConstants::GameBackgroundTexture.getSize().x * 0.5,
+								 GameConstants::GameBackgroundTexture.getSize().y * 0.5);
+	m_BackgroundSprite.setPosition(windowWidth * 0.5, windowHeight * 0.5);
+
 	NextPlayerTurn();
 }
 
@@ -46,8 +53,13 @@ FGame::~FGame()
 // =============================================================================
 void FGame::MainLoop()
 {
+	Clock gameClock;
+	F32 dt = 0;
+
 	while (m_Window.isOpen())
     {
+    	dt = gameClock.restart().asSeconds();
+
         Event event;
         while (m_Window.pollEvent(event))
         {
@@ -57,12 +69,17 @@ void FGame::MainLoop()
         m_HUD.Update();
         m_CurrentPlayerSprite.setPosition(
         	Mouse::getPosition(m_Window).x, Mouse::getPosition(m_Window).y);
+        m_BackgroundSprite.rotate(3 * dt);
 
-        m_Window.clear(Color::White);
+        m_Window.clear(Color::Red);
+        m_Window.draw(m_BackgroundSprite);
         m_Board->Draw(m_Window);
         m_HUD.Draw(m_Window);
         m_Window.draw(m_CurrentPlayerSprite);
         m_Window.display();
+
+        if (gameClock.getElapsedTime().asSeconds() < 0.016)
+        	sleep(seconds(0.016 - gameClock.getElapsedTime().asSeconds()));
     }
 }
 
@@ -150,19 +167,19 @@ void FGame::OnRoundEnd()
 		if (m_CurrentPlayer == TPlayerID::PLAYER1)
 		{
 			++m_Score[0];
-			m_HUD.UpdateGameMessage("Player 1 wins!");
+			m_HUD.UpdateGameMessage("Player 1 wins!", Color(12, 118, 232));
 		}
 		else
 		{
 			++m_Score[1];
-			m_HUD.UpdateGameMessage("Player 2 wins!");
+			m_HUD.UpdateGameMessage("Player 2 wins!", Color(232, 12, 41));
 		}
 
 		m_HUD.UpdateScoreboard(m_Score);
 	}
 
 	if (m_GameState == TGameState::TIE)
-		m_HUD.UpdateGameMessage("Tie!");
+		m_HUD.UpdateGameMessage("Tie!", Color::Red);
 }
 
 bool FGame::CheckWin() const

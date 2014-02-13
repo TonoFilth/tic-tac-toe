@@ -12,6 +12,7 @@ namespace fe
 class GameConstants
 {
 private:
+	static const std::string GameBackgroundTextureFile;
 	static const std::string Player1TextureFile;
 	static const std::string Player2TextureFile;
 	static const std::string SquareTextureFile;
@@ -25,6 +26,7 @@ public:
 	GameConstants& operator=(const GameConstants& toCopy);
 	~GameConstants();
 
+	static sf::Texture GameBackgroundTexture;
 	static sf::Texture Player1Texture;
 	static sf::Texture Player2Texture;
 	static sf::Texture SquareTexture;
@@ -41,6 +43,8 @@ public:
 	static const UI32 HudPlayerNameTextSize;
 	static const UI32 HudScoreboardTextSize;
 	static const UI32 HudGameMessageTextSize;
+
+	static const sf::Vector2f HudGameMessagePosition;
 
 	static sf::Font HudFont;
 
