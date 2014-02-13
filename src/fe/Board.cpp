@@ -123,7 +123,16 @@ const IntRect& Board::GetBounds() const
 	return m_Bounds;
 }
 
-const TPlayerMovements& Board::GetPlayerMovements(const TPlayerID playerId) const
+TPlayerID Board::GetMovement(UI32 row, UI32 col) const
+{
+	if (row >= m_Movements.size() ||
+		col >= m_Movements[row].size())
+		return TPlayerID::NONE;
+
+	return m_Movements[row][col];
+}
+
+TPlayerMovements Board::GetMovements() const
 {
 	return m_Movements;
 }

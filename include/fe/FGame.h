@@ -18,8 +18,11 @@ private:
 	sf::RenderWindow	m_Window;
 
 	void MainLoop();
-	void HandleInput();
+	void HandleInput(const sf::Event& event);
 	bool CheckWin() const;
+	bool CheckWinRow(const UI32 row, const TPlayerMovements& movements) const;
+	bool CheckWinColumn(const UI32 col, const TPlayerMovements& movements) const;
+	bool CheckTie() const;
 	void Draw(sf::RenderWindow& window) const;
 	void Reset();
 

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "fe/FGame.h"
 
 using namespace std;
@@ -44,32 +45,96 @@ void FGame::MainLoop()
         Event event;
         while (m_Window.pollEvent(event))
         {
-            if (event.type == Event::Closed)
-                m_Window.close();
-            if (event.type == Event::MouseButtonPressed)
-            {
-            	if (event.mouseButton.button == Mouse::Left)
-            	{
-            		Vector2u bCoords;
-            		if (Window2BoardCoords(Vector2i(event.mouseButton.x, event.mouseButton.y),
-            			bCoords, *m_Board))
-            		{
-            			m_Board->PutChip(bCoords.x,
-            						 	 bCoords.y,
-            						 	 m_CurrentPlayer);
-            			if (m_CurrentPlayer == TPlayerID::PLAYER1)
-            				m_CurrentPlayer = TPlayerID::PLAYER2;
-            			else
-            				m_CurrentPlayer = TPlayerID::PLAYER1;
-            		}
-            	}
-            }
+            HandleInput(event);
         }
+
+        //if (CheckWin())
+        //	cout << "Win" << endl;
+
+        if (CheckTie())
+        	cout << "Tie!" << endl;
 
         m_Window.clear(Color::White);
         m_Board->Draw(m_Window);
         m_Window.display();
     }
+}
+
+void FGame::HandleInput(const Event& event)
+{
+	if (m_State.IsPaused() || m_State.IsStopped())
+		return;
+
+	if (event.type == Event::Closed)
+    	m_Window.close();
+
+    if (event.type == Event::MouseButtonPressed)
+    {
+    	if (event.mouseButton.button == Mouse::Left)
+        {
+        	Vector2u bCoords;
+            if (Window2BoardCoords(Vector2i(event.mouseButton.x, event.mouseButton.y),
+            	bCoords, *m_Board) && m_Board->GetMovements()[bCoords.x][bCoords.y] == TPlayerID::NONE)
+            {
+            	m_Board->PutChip(bCoords.x, bCoords.y, m_CurrentPlayer);
+            	
+            	if (CheckWin())
+            		cout << "Win" << endl;
+           		
+           		if (m_CurrentPlayer == TPlayerID::PLAYER1)
+            		m_CurrentPlayer = TPlayerID::PLAYER2;
+            	else
+            		m_CurrentPlayer = TPlayerID::PLAYER1;
+            }
+            else
+            {
+            	cerr << "Invalid movement" << endl;
+            }
+        }
+    }
+}
+
+bool FGame::CheckWin() const
+{
+	TPlayerMovements movements = m_Board->GetMovements();
+
+	for (UI32 i = 0; i < m_Board->GetSize().x; ++i)
+		if (CheckWinRow(i, movements))
+			return true;
+
+	for (UI32 i = 0; i < m_Board->GetSize().y; ++i)
+		if (CheckWinColumn(i, movements))
+			return true;
+
+	return false;
+}
+
+bool FGame::CheckWinRow(const UI32 row, const TPlayerMovements& movements) const
+{
+	for (auto& movement : movements[row])
+		if (movement != m_CurrentPlayer)
+			return false;
+	
+	return true;
+}
+
+bool FGame::CheckWinColumn(const UI32 column, const TPlayerMovements& movements) const
+{
+	for (auto& row : movements)
+		if (row[column] != m_CurrentPlayer)
+			return false;
+
+	return true;
+}
+
+bool FGame::CheckTie() const
+{
+	for (auto& row : m_Board->GetMovements())
+		for (auto& movement : row)
+			if (movement == TPlayerID::NONE)
+				return false;
+
+	return true;
 }
 
 // =============================================================================

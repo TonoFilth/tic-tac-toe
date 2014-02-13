@@ -38,7 +38,8 @@ public:
 	const sf::Vector2u& GetSize() const;
 	const sf::Vector2u& GetSquareSize() const;
 	const sf::IntRect& GetBounds() const;
-	const TPlayerMovements& GetPlayerMovements(const TPlayerID playerId) const;
+	TPlayerID GetMovement(UI32 row, UI32 col) const;
+	TPlayerMovements GetMovements() const;
 	void SetPlayerChip(TPlayerID id, const sf::Sprite& chipSprite);
 };
 
