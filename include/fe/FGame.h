@@ -14,7 +14,7 @@ class FGame
 private:
 	Board* 	  		 m_Board;
 	TPlayerID 		 m_CurrentPlayer;
-	UI16	  		 m_Wins[2];
+	UI16	  		 m_Score[2];
 	StateController  m_InternalState;
 	GameHud			 m_HUD;
 	sf::RenderWindow m_Window;

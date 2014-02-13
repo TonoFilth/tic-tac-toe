@@ -13,7 +13,7 @@ namespace fe
 FGame::FGame(const UI16 windowWidth, const UI16 windowHeight) :
 	m_Board(nullptr),
 	m_CurrentPlayer(TPlayerID::PLAYER1),
-	m_Wins{ 0, 0 },
+	m_Score{ 0, 0 },
 	m_HUD(Vector2f(windowWidth, windowWidth * 0.08)),
 	m_Window(VideoMode(windowWidth, windowHeight), "Tic-Tac-Toe")
 {
@@ -48,11 +48,7 @@ void FGame::MainLoop()
             HandleInput(event);
         }
 
-        //if (CheckWin())
-        //	cout << "Win" << endl;
-
-        if (CheckTie())
-        	cout << "Tie!" << endl;
+        m_HUD.Update();
 
         m_Window.clear(Color::White);
         m_HUD.Draw(m_Window);
@@ -80,13 +76,33 @@ void FGame::HandleInput(const Event& event)
             	m_Board->PutChip(bCoords.x, bCoords.y, m_CurrentPlayer);
             	
             	if (CheckWin())
-            		cout << "Win" << endl;
+            	{
+            		if (m_CurrentPlayer == TPlayerID::PLAYER1)
+            			++m_Score[0];
+            		else
+            			++m_Score[1];
+
+            		m_HUD.UpdateScoreboard(m_Score);
+
+            		if (m_CurrentPlayer == TPlayerID::PLAYER1)
+            			m_HUD.UpdateGameMessage("Player 1 wins!");
+            		else
+            			m_HUD.UpdateGameMessage("Player 2 wins!");
+            	}
+
+            	if (CheckTie())
+            	{
+            		m_HUD.UpdateGameMessage("Tie!");
+            	}
            		
            		NextPlayerTurn();
             }
             else
             {
-            	cerr << "Invalid movement" << endl;
+            	string prevMessage = m_HUD.GetGameMessage();
+            	m_HUD.UpdateGameMessage("Invalid movement",
+            							1000,
+            							[&, prevMessage] () { m_HUD.UpdateGameMessage(prevMessage); });
             }
         }
     }

@@ -36,9 +36,11 @@ public:
 	static const sf::Color HudBackgroundColor;
 	static const sf::Color HudPlayerNameColor;
 	static const sf::Color HudScoreboardColor;
+	static const sf::Color HudGameMessageColor;
 
 	static const UI32 HudPlayerNameTextSize;
 	static const UI32 HudScoreboardTextSize;
+	static const UI32 HudGameMessageTextSize;
 
 	static sf::Font HudFont;
 

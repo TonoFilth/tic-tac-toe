@@ -21,9 +21,11 @@ const Vector2u GameConstants::SquareSize(64, 64);
 const Color GameConstants::HudBackgroundColor(0, 0, 0, 200);
 const Color GameConstants::HudPlayerNameColor(255, 255, 255, 255);
 const Color GameConstants::HudScoreboardColor(255, 255, 255, 255);
+const Color GameConstants::HudGameMessageColor(0, 0, 0, 255);
 
-const UI32 GameConstants::HudPlayerNameTextSize = 24;
-const UI32 GameConstants::HudScoreboardTextSize = 24;
+const UI32 GameConstants::HudPlayerNameTextSize  = 24;
+const UI32 GameConstants::HudScoreboardTextSize  = 24;
+const UI32 GameConstants::HudGameMessageTextSize = 30;
 
 // =============================================================================
 //	STATIC FIELDS
