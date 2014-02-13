@@ -14,10 +14,10 @@ FGame::FGame(const UI16 windowWidth, const UI16 windowHeight) :
 	m_Board(nullptr),
 	m_CurrentPlayer(TPlayerID::PLAYER1),
 	m_Wins{ 0, 0 },
+	m_HUD(Vector2f(windowWidth, windowWidth * 0.08)),
 	m_Window(VideoMode(windowWidth, windowHeight), "Tic-Tac-Toe")
 {
-	GameConstants::Init();
-	m_State.SetRunCallback(bind(&FGame::MainLoop, this));
+	m_InternalState.SetRunCallback(bind(&FGame::MainLoop, this));
 	
 	m_Board = new Board(GameConstants::BoardSize,   GameConstants::SquareSize,
 						Vector2i(windowWidth * 0.5, windowHeight * 0.5),
@@ -31,7 +31,7 @@ FGame::~FGame()
 {
 	if (m_Board != nullptr)
 		delete m_Board;
-
+	
 	m_Board = nullptr;
 }
 
@@ -55,6 +55,7 @@ void FGame::MainLoop()
         	cout << "Tie!" << endl;
 
         m_Window.clear(Color::White);
+        m_HUD.Draw(m_Window);
         m_Board->Draw(m_Window);
         m_Window.display();
     }
@@ -62,7 +63,7 @@ void FGame::MainLoop()
 
 void FGame::HandleInput(const Event& event)
 {
-	if (m_State.IsPaused() || m_State.IsStopped())
+	if (m_InternalState.IsPaused() || m_InternalState.IsStopped())
 		return;
 
 	if (event.type == Event::Closed)
@@ -81,10 +82,7 @@ void FGame::HandleInput(const Event& event)
             	if (CheckWin())
             		cout << "Win" << endl;
            		
-           		if (m_CurrentPlayer == TPlayerID::PLAYER1)
-            		m_CurrentPlayer = TPlayerID::PLAYER2;
-            	else
-            		m_CurrentPlayer = TPlayerID::PLAYER1;
+           		NextPlayerTurn();
             }
             else
             {
@@ -92,6 +90,14 @@ void FGame::HandleInput(const Event& event)
             }
         }
     }
+}
+
+void FGame::NextPlayerTurn()
+{
+	if (m_CurrentPlayer == TPlayerID::PLAYER1)
+    	m_CurrentPlayer = TPlayerID::PLAYER2;
+    else
+    	m_CurrentPlayer = TPlayerID::PLAYER1;
 }
 
 bool FGame::CheckWin() const
@@ -170,7 +176,7 @@ bool FGame::CheckWinDiagonal(const bool leftRight, const TPlayerMovements& movem
 // =============================================================================
 void FGame::Run()
 {
-	m_State.Run();
+	m_InternalState.Run();
 }
 
 }

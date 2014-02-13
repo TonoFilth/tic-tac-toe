@@ -12,10 +12,18 @@ namespace fe
 const string GameConstants::Player1TextureFile = "assets/images/chip-a.png";
 const string GameConstants::Player2TextureFile = "assets/images/chip-b.png";
 const string GameConstants::SquareTextureFile  = "assets/images/square.png";
+const string GameConstants::HudFontFile		   = "assets/fonts/Monaco.ttf";
 
 const Vector2u GameConstants::WindowSize(500, 500);
 const Vector2u GameConstants::BoardSize(3, 3);
 const Vector2u GameConstants::SquareSize(64, 64);
+
+const Color GameConstants::HudBackgroundColor(0, 0, 0, 200);
+const Color GameConstants::HudPlayerNameColor(255, 255, 255, 255);
+const Color GameConstants::HudScoreboardColor(255, 255, 255, 255);
+
+const UI32 GameConstants::HudPlayerNameTextSize = 24;
+const UI32 GameConstants::HudScoreboardTextSize = 24;
 
 // =============================================================================
 //	STATIC FIELDS
@@ -23,6 +31,8 @@ const Vector2u GameConstants::SquareSize(64, 64);
 Texture GameConstants::Player1Texture;
 Texture GameConstants::Player2Texture;
 Texture GameConstants::SquareTexture;
+
+Font GameConstants::HudFont;
 
 bool GameConstants::st_Initialized = false;
 
@@ -39,6 +49,12 @@ bool GameConstants::Init()
 		!SquareTexture.loadFromFile(SquareTextureFile))
 	{
 		cerr << "Can't load textures" << endl;
+		return false;
+	}
+
+	if (!HudFont.loadFromFile(HudFontFile))
+	{
+		cerr << "Can't load font file: " << HudFontFile << endl;
 		return false;
 	}
 

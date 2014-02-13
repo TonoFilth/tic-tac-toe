@@ -8,9 +8,7 @@ using namespace fe;
 
 int main(int argc, char** argv)
 {
-    //RenderWindow window(sf::VideoMode(500, 500), "TicTacToe");
-    //Board board(Vector2u(3, 3), Vector2u(64, 64), Vector2i(250, 250), squareTexture);
-
+    GameConstants::Init();
     FGame game(GameConstants::WindowSize.x, GameConstants::WindowSize.y);
     game.Run();
 

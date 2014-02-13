@@ -15,6 +15,7 @@ private:
 	static const std::string Player1TextureFile;
 	static const std::string Player2TextureFile;
 	static const std::string SquareTextureFile;
+	static const std::string HudFontFile;
 	
 	static bool st_Initialized;
 
@@ -31,6 +32,15 @@ public:
 	static const sf::Vector2u WindowSize;
 	static const sf::Vector2u BoardSize;
 	static const sf::Vector2u SquareSize;
+
+	static const sf::Color HudBackgroundColor;
+	static const sf::Color HudPlayerNameColor;
+	static const sf::Color HudScoreboardColor;
+
+	static const UI32 HudPlayerNameTextSize;
+	static const UI32 HudScoreboardTextSize;
+
+	static sf::Font HudFont;
 
 	static bool Init();
 };
