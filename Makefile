@@ -3,7 +3,7 @@ CC:=g++
 CFLAGS:=-Wall -ggdb -std=c++11
 
 # APP
-APPNAME:=tictactoe
+APPNAME:=tic-tac-toe
 
 # APP DIRECTORIES
 BUILDDIR:=bin
