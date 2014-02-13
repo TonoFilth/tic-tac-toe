@@ -106,6 +106,12 @@ bool FGame::CheckWin() const
 		if (CheckWinColumn(i, movements))
 			return true;
 
+	if (CheckWinDiagonal(true, movements))
+		return true;
+
+	if (CheckWinDiagonal(false, movements))
+		return true;
+
 	return false;
 }
 
@@ -133,6 +139,28 @@ bool FGame::CheckTie() const
 		for (auto& movement : row)
 			if (movement == TPlayerID::NONE)
 				return false;
+
+	return true;
+}
+
+bool FGame::CheckWinDiagonal(const bool leftRight, const TPlayerMovements& movements) const
+{
+	// The board must be squared
+	if (m_Board->GetSize().x != m_Board->GetSize().y)
+		return false;
+
+	if (leftRight)
+	{
+		for (UI32 i = 0; i < m_Board->GetSize().x; ++i)
+			if (movements[i][i] != m_CurrentPlayer)
+				return false;
+
+		return true;
+	}
+
+	for (UI32 i = 0; i < m_Board->GetSize().x; ++i)
+		if (movements[i][m_Board->GetSize().x - 1 - i] != m_CurrentPlayer)
+			return false;
 
 	return true;
 }

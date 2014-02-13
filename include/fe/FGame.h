@@ -22,6 +22,7 @@ private:
 	bool CheckWin() const;
 	bool CheckWinRow(const UI32 row, const TPlayerMovements& movements) const;
 	bool CheckWinColumn(const UI32 col, const TPlayerMovements& movements) const;
+	bool CheckWinDiagonal(const bool leftRight, const TPlayerMovements& movements) const;
 	bool CheckTie() const;
 	void Draw(sf::RenderWindow& window) const;
 	void Reset();
