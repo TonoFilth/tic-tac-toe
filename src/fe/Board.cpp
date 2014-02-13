@@ -103,6 +103,9 @@ void Board::Reset()
 {
 	m_Chips.clear();
 	m_Movements.clear();
+
+	for (UI32 i = 0; i < m_BoardSize.x; ++i)
+		m_Movements.push_back(vector<TPlayerID>(m_BoardSize.y, TPlayerID::NONE));
 }
 
 // =============================================================================
