@@ -3,7 +3,7 @@ tic-tac-toe
 
 A simple tic-tac-toe game
 
-## BUILD AND RUN
+## Build and run
 
 **Pre-requisites**  
 You need **[SFML 2.1](http://sfml-dev.org/)** installed in your system to run this game
@@ -19,7 +19,7 @@ $ make
 $ ./bin/tic-tac-toe
 ```
 
-## SCREENSHOTS
+## Screenshots
 
 ![alt tag](http://oi62.tinypic.com/2ilimma.jpg)
 ![alt tag](http://oi57.tinypic.com/1z52a3d.jpg)
